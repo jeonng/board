@@ -13,6 +13,7 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: () => import('@/views/Login.vue'),
+    
     beforeEnter(to, from, next) {
       if (localStorage.getItem('token')) {
         next('/')
@@ -39,7 +40,7 @@ const routes = [
   {
     path: '/board/:id/edit',
     name: 'edit',
-    component: () => import('@/views/Post.vue'),
+    component: () => import('@/views/Write.vue'),
   },
 ]
 

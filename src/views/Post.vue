@@ -30,7 +30,6 @@ export default {
     id: this.$route.params.id,
     items:[],
     date:'',
-    edit:'',
   }},
   created() {
     this.getData()
@@ -54,20 +53,10 @@ export default {
         console.log('posterror')
       })
     },
-    EditData() {
-      boardAPI({
-        method: 'put',
-        url:'/post/'+this.id
-      }).then(() => {
-
-      }).catch(() =>{
-        console.log('editError')
-      })
-    },
     onEdit() {
-      
+      this.$router.push('/board/'+ this.id +'/edit')
     }
-  },
+  }
   // getUser(item) {
   //   authAPI({
   //     method:'get',
@@ -81,6 +70,7 @@ export default {
   //     console.log('ddd')
   //   })
   // },
+
 }
 </script>
 

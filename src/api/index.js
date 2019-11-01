@@ -16,7 +16,7 @@ const makeQS = (data = {}) => {
 const api = baseURL => data => axios({
   method: data.method,
   headers: {
-    'Authorization':data.auth,
+    'Authorization': 'Bearer ' + localStorage.getItem('token'),
     'x-client-id': 1,
   },
   url: baseURL + data.url,
@@ -29,7 +29,6 @@ const api = baseURL => data => axios({
     console.log(error)
     throw error
   })
-
 
 const boardAPI = api('http://board.api.leysys.com/v2/custom')
 const authAPI = api('http://auth.api.leysys.com/v2')

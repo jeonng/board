@@ -5,42 +5,68 @@
       <p>{{item.nickname}}</p>
     </div>
     <div v-for="item in items" :key="item.id">
-      <p>{{item.data}}</p>
       <p v-html="item.content"></p>
+      <p>작성일 : {{date}}</p>
     </div>
+    <br><br>
+    <button @click="onEdit">수정하기</button>
+    <div>
+      <br><br><br>
+      <Comment></Comment>
+    </div>  
   </div>
 </template>
 
 <script>
 import { boardAPI, authAPI, makeQS } from '@/api'
 import moment from 'moment-timezone'
+import Comment from '../components/Comment'
 
 export default {
+  components:{
+    Comment
+  },
   data() {return {
     id: this.$route.params.id,
     items:[],
-    date:''
+    date:'',
+    edit:'',
   }},
   created() {
     this.getData()
   },
+  mounted() {
+
+  },
   methods: {
     getData() {
-    boardAPI({
-      method: 'get',
-      url: '/post/' + this.id
-    }).then(data => {
-      this.items = data.result
-      var postDate = this.items[0].date_created
-      var result = moment(this.items[0].date_created).format('YYYY. MM. DD. HH:mm:ss')
-      console.log('결과: ', result)
-      console.log(postDate)
-      console.log(getMonth(postDate))
-      console.log(this.items)
-    }).catch(err => {
-      console.log('posterror')
-    })
-  },
+      boardAPI({
+        method: 'get',
+        url: '/post/' + this.id
+      }).then(data => {
+        this.items = data.result
+        var postDate = this.items[0].date_created
+        var result = moment(this.items[0].date_created).format('YYYY-MM-DD')
+        this.date = result 
+        console.log(data.result)   
+        console.log(this.id) 
+      }).catch(err => {
+        console.log('posterror')
+      })
+    },
+    EditData() {
+      boardAPI({
+        method: 'put',
+        url:'/post/'+this.id
+      }).then(() => {
+
+      }).catch(() =>{
+        console.log('editError')
+      })
+    },
+    onEdit() {
+      
+    }
   },
   // getUser(item) {
   //   authAPI({

@@ -1,5 +1,5 @@
 <template>
-  
+  <div>댓글할거임</div>
 </template>
 
 <script>

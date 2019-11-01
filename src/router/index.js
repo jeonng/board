@@ -6,8 +6,20 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'Home',
     component: () => import('@/views/Home.vue'),
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/Login.vue'),
+    beforeEnter(to, from, next) {
+      if (localStorage.getItem('token')) {
+        next('/')
+      } else {
+        next()
+      }
+    },
   },
   {
     path: '/board',
@@ -22,6 +34,11 @@ const routes = [
   {
     path: '/board/:id',
     name: 'post',
+    component: () => import('@/views/Post.vue'),
+  },
+  {
+    path: '/board/:id/edit',
+    name: 'edit',
     component: () => import('@/views/Post.vue'),
   },
 ]

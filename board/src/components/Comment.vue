@@ -64,14 +64,15 @@ export default {
       })
     },
     submitEditComment (d) {
+      console.log(d)
       boardAPI({
         method:'put',
-        url:'/comment/' + this.comments.custom_comment_id,
+        url:'/comment/' + d.id,
         data: {
-          content: this.content
+          content: d.content
         }
       }).then(() => {
-        console.log(this.comments.custom_comment_id)
+        this.getComments()
       })
     }
   },

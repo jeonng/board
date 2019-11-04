@@ -1,40 +1,55 @@
 <template>
   <div>
-
+    <div v-if="!isEditing" class="commentList">
+      <p>{{comment.content}}</p>
+      <p>{{comment.display_name}}</p>
+      <button @click="enterEdit">수정하기</button>
+    </div>
+    <div v-else>
+      <textarea v-model="editingContent"></textarea>
+      <button @click="exitEdit">취소</button>
+      <button @click="submitEdit">완료</button>
+    </div>
   </div>
 </template>
 
 <script>
-import {boardAPI} from '@/api'
-
 export default {
+    props: {
+      comment: Object,
+    },
     data() {
-        return{
-            post_id : this.$router.currentRoute.params.id
-        }
+      return {
+        isEditing: false,
+        editingContent: '',
+      }
     },
     created(){
-        this.commentPost()
-    },
-    mounted() {
-        
+      
     },
     methods:{
-        commentPost() {
-            boardAPI({
-                method: 'get',
-                url:'/comment/'
-            }).then((data) => {
-                console.log(data)
-            }).catch(() => {
-                console.log('errerrorororor')
-            })
-        }
+      exitEdit () {
+        this.isEditing = false
+        this.editingContent = ''
+      },
+      enterEdit () {
+        this.isEditing = true
+        this.editingContent = this.comment.content
+      },
+      submitEdit () {
+        this.$emit('submit', {
+          id: this.comment.custom_comment_id,
+          content: this.editingContent,
+        })
+        this.exitEdit()
+      }
     }
-
 }
 </script>
 
 <style>
-
+.commentList{
+    display: flex;
+    justify-content: space-between
+}
 </style>
